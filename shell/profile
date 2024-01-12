@@ -1,0 +1,190 @@
+#!/bin/zsh
+# profile file. Runs on login. Environmental variables are set here.
+
+# Adds `~/.local/bin` to $PATH
+export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
+
+unsetopt PROMPT_SP
+
+# Neovim vars
+export BIB="$HOME/Documents/RMIT/.biblios/cites.bib"
+
+# Default programs:
+export BROWSER='vivaldi-stable'
+export EDITOR='nvim'
+export PAGER='nvim -R'
+export MANPAGER='nvim +Man!'
+export TERMINAL='st'
+
+# XDG Directories Setup
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_DOCUMENTS_DIR="$HOME/Documents/"
+export XDG_DOWNLOAD_DIR="$HOME/Downloads/"
+export XDG_MUSIC_DIR="$HOME/Audio/Music/"
+export XDG_PICTURES_DIR="$HOME/Pictures/"
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_VIDEOS_DIR="$HOME/Videos/"
+
+# XDG Directories Enforcement
+# Cache:	"${XDG_CACHE_HOME}
+# Config:	"${XDG_CONFIG_HOME}
+# Data:		"${XDG_DATA_HOME}
+# Runtime:	"${XDG_RUNTIME_DIR}
+export ALSA_CONFIG_PATH="${XDG_CONFIG_HOME}/alsa/asoundrc"					    # alsa
+export ANDROID_SDK_HOME="${XDG_CONFIG_HOME}/android"						    # android
+export ANSIBLE_CONFIG="${XDG_CONFIG_HOME}/ansible/ansible.cfg"				    # ansible
+export CARGO_HOME="${XDG_DATA_HOME}/cargo"									    # cargo
+export CUDA_CACHE_PATH="${XDG_CACHE_HOME}/nv"								    # cuda
+export DOCKER_CONFIG="${XDG_CONFIG_HOME}/docker"							    # docker
+export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker"							    # docker
+export ELECTRUMDIR="${XDG_DATA_HOME}/electrum"								    # electrum
+export FFMPEG_DATADIR="$XDG_CONFIG_HOME/ffmpeg"								    # ffmpeg
+export GNUPGHOME="${XDG_DATA_HOME}/gnupg"									    # gnupg
+export GOPATH="${XDG_DATA_HOME}/go"											    # go
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"								    # gradle
+export GTK2_RC_FILES="${XDG_CONFIG_HOME}/gtk-2.0/gtkrc"						    # gtk2
+export GTK_RC_FILES="${XDG_CONFIG_HOME}/gtk-1.0/gtkrc"						    # gtk1
+export HISTFILE="${XDG_DATA_HOME}/history"									    # history
+export INPUTRC="${XDG_CONFIG_HOME}/shell/inputrc"							    # inputrc
+export KERAS_HOME="${XDG_DATA_HOME}/keras"                                      # python-keras
+export KODI_DATA="${XDG_DATA_HOME}/kodi"									    # kodi
+export MACHINE_STORAGE_PATH="${XDG_DATA_HOME}/docker-machine"				    # docker
+export MATHEMATICA_USERBASE="$XDG_CONFIG_HOME/mathematica"					    # mathematica
+export MBSYNCRC="${XDG_CONFIG_HOME}/mbsync/config"							    # mbsync
+export NOTMUCH_CONFIG="${XDG_CONFIG_HOME}/notmuch-config"					    # notmuch
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"					    # npm
+export OCTAVE_HISTFILE="$XDG_CACHE_HOME/octave-hsts"						    # octave
+export OCTAVE_SITE_INITFILE="$XDG_CONFIG_HOME/octave/octaverc"				    # octave
+export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"							    # parallel
+export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/password-store"					    # pass/gopass
+export PYTHONPYCACHEPREFIX=$XDG_CACHE_HOME/python                               # python
+export PYTHONUSERBASE=$XDG_DATA_HOME/python                                     # python
+export QSYS_ROOTDIR="${XDG_DATA_HOME}/Quartus/quartus/sopc_builder/bin"		    # quartus
+export TEXMFCONFIG="${XDG_CONFIG_HOME}/texlive/texmf-config"				    # texmf
+export TEXMFHOME="${XDG_DATA_HOME}/texmf"									    # texmf
+export TEXMFVAR="${XDG_CACHE_HOME}/texlive/texmf-var"						    # texmf
+export TMUX_TMPDIR="${XDG_RUNTIME_DIR}"										    # tmux
+export UNISON="${XDG_DATA_HOME}/unison"										    # unison
+export W3M_DIR="$XDG_STATE_HOME/w3m"                                            # w3m
+export WGETRC="${XDG_CONFIG_HOME}/wget/wgetrc"								    # wget
+export WINEPREFIX="${XDG_DATA_HOME}/wineprefixes/default"					    # wine
+export WORKON_HOME=~/.local/share/virtualenvs                                   # python-virtualenvwrapper
+export XAUTHORITY="${XDG_RUNTIME_DIR}/Xauthority"							    # xauthority
+export XINITRC="${XDG_CONFIG_HOME}/x11/xinitrc"								    # xinit
+export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"										    # zsh
+export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="${XDG_CONFIG_HOME}/java"	    # java
+
+# Theme
+export GTK_THEME=Adwaita:dark
+export QT_QPA_PLATFORMTHEME="gtk2"											    # Have QT use gtk2 theme.
+export QT_STYLE_OVERRIDE="adwaita-dark"										    # GTK and Qt Theme
+
+# Other program settings:
+export PIP_EXTRA_INDEX_URL="https://download.pytorch.org/whl/nightly/rocm5.7"   # Python Torch version
+export AWT_TOOLKIT="MToolkit wmname LG3D"									    # May have to install wmname
+export DICS="/usr/share/stardict/dic/"										    # Add dictionary directory
+export ESPIDF='/opt/esp-idf'												    # ESP Programming directory set
+export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"						    # FZF default options
+export LESS=-R																    # Less set redraw
+export LESSHISTFILE="-"														    # Less set no history file
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"				    # Less add highlighting
+export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"							    # Less set blink time
+export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"							    # Less set bold
+export LESS_TERMCAP_me="$(printf '%b' '[0m')"								    # Less set sgr0 (no bold, blink, or underline)
+export LESS_TERMCAP_se="$(printf '%b' '[0m')"								    # Less set rmso (stop standout)
+export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"						    # Less set smso (standout - reverse video)
+export LESS_TERMCAP_ue="$(printf '%b' '[0m')"								    # Less set stop underline
+export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"							    # Less set start underline
+export MOZ_USE_XINPUT2="1"													    # Mozilla smooth scrolling/touchpads.
+export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"							    # Sets sudo password promt program
+export _JAVA_AWT_WM_NONREPARENTING=1										    # Fix for Java applications in dwm
+
+# This is the list for lf icons:
+export LF_ICONS="\
+di=📁:\
+ex=🎯:\
+fi=📃:\
+ln=⛓:\
+or=❌:\
+ow=📂:\
+tw=🤝:\
+*.1=ℹ:\
+*.7z=📦:\
+*.R=📊:\
+*.Rmd=📊:\
+*.avi=🎥:\
+*.bib=🎓:\
+*.css=🎨:\
+*.csv=📓:\
+*.djvu=📚:\
+*.epub=📚:\
+*.flac=🎼:\
+*.flv=🎥:\
+*.gba=🎮:\
+*.gdi=🎮:\
+*.ged=👪:\
+*.gif=🖼:\
+*.gpg=🔒:\
+*.html=🌎:\
+*.ico=🖼:\
+*.img=📀:\
+*.info=ℹ:\
+*.iso=📀:\
+*.jar=♨:\
+*.java=♨:\
+*.jpe=📸:\
+*.jpeg=📸:\
+*.jpg=📸:\
+*.log=📙:\
+*.m4a=🎵:\
+*.m4b=🎥:\
+*.m=📊:\
+*.md=📘:\
+*.me=✍:\
+*.mkv=🎥:\
+*.mom=✍:\
+*.mov=🎥:\
+*.mp3=🎵:\
+*.mp4=🎥:\
+*.mpeg=🎥:\
+*.mpg=🎥:\
+*.ms=✍:\
+*.n64=🎮:\
+*.nes=🎮:\
+*.nfo=ℹ:\
+*.ogg=🎵:\
+*.opus=🎵:\
+*.part=💔:\
+*.pdf=📚:\
+*.png=🖼:\
+*.r=📊:\
+*.rar=📦:\
+*.rmd=📊:\
+*.svg=🗺:\
+*.tar.gz=📦:\
+*.tex=📜:\
+*.tif=🖼:\
+*.tiff=🖼:\
+*.torrent=🔽:\
+*.txt=✍:\
+*.v64=🎮:\
+*.wav=🎼:\
+*.webm=🎥:\
+*.webp=🖼:\
+*.wmv=🎥:\
+*.xcf=🖌:\
+*.xlsx=📓:\
+*.xml=📰:\
+*.z64=🎮:\
+*.zip=📦:\
+"
+
+[ ! -f ${XDG_CONFIG_HOME}/shell/shortcutrc ] && shortcuts >/dev/null 2>&1 &
+
+# Start graphical server on user's current tty if not already running.
+[ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+
+# Switch escape and caps if tty and no passwd required:
+sudo -n loadkeys ${XDG_DATA_HOME}/larbs/ttymaps.kmap 2>/dev/null

@@ -1,0 +1,13 @@
+# You can add comments to these files with #
+cch 		${XDG_CACHE_HOME:-$HOME/.cache}
+cnf  		${XDG_CONFIG_HOME:-$HOME/.config}
+dwn   		${XDG_DOWNLOAD_DIR:-$HOME/Downloads}
+doc   		${XDG_DOCUMENTS_DIR:-$HOME/Documents}
+shr  		${XDG_DATA_HOME:-$HOME/.local/share}
+src  		$HOME/.local/src
+mus  		${XDG_MUSIC_DIR:-$HOME/Music}
+mnt  		/mnt
+pic  		${XDG_PICTURES_DIR:-$HOME/Pictures}
+bin  		$HOME/.local/bin
+vid  		${XDG_VIDEOS_DIR:-$HOME/Videos}
+phd			$HOME/Documents/RMIT/PhD/

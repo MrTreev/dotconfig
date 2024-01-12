@@ -1,0 +1,21 @@
+[user]
+	name = MrTreev
+	email = mr.treev@gmail.com
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[init]
+	defaultBranch = master
+[submodule]
+	recurse = true
+[core]
+	pager = nvim -Rd
+[color]
+	pager = no
+[diff]
+	tool = vimdiff
+[push]
+	default = current

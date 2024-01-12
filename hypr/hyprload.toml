@@ -1,0 +1,5 @@
+plugins = [
+    "Duckonaut/split-monitor-workspaces",
+	"micha4w/Hypr-DarkWindow",
+	"Horus645/swww",
+]

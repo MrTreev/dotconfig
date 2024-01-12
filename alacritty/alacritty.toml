@@ -1,0 +1,38 @@
+live_config_reload = true
+import = [
+	"~/.config/alacritty/theme.toml",
+]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 12.0
+normal.family = "Hack Nerd Font Mono"
+
+[scrolling]
+history = 100000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+
+[[hints.enabled]]
+command = "xdg-open"
+hyperlinks = true
+post_processing = true
+persist = true
+mouse.enabled = true
+binding = { key = "U", mods = "Control|Shift" }
+
+[keyboard]
+bindings = [
+	{ key="A", mods = "Alt|Shift", action = "IncreaseFontSize" },
+	{ key="S", mods = "Alt|Shift", action = "DecreaseFontSize" },
+	{ key="0", mods = "Alt|Shift", action = "ResetFontSize" },
+	{ key="G", mods = "Alt",       action = "ScrollToTop" },
+	{ key="G", mods = "Alt|Shift", action = "ScrollToBottom" },
+	{ key="K", mods = "Alt",       action = "ScrollLineUp" },
+	{ key="J", mods = "Alt",       action = "ScrollLineDown" },
+]
+
