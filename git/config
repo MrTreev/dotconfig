@@ -11,11 +11,9 @@
 	defaultBranch = master
 [submodule]
 	recurse = true
-[core]
-	pager = nvim -Rd
-[color]
-	pager = no
 [diff]
 	tool = vimdiff
 [push]
 	default = current
+[color]
+	diff = off
