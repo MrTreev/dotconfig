@@ -1,6 +1,5 @@
 /*
-!/mimeapps.list
-!/user-dirs.dirs
+!**/.gitignore
 !/alacritty
 !/alsa
 !/calcurse
@@ -13,7 +12,9 @@
 !/glow
 !/gtk-*
 !/hypr
+!/hypr
 !/lf
+!/mimeapps.list
 !/mpd
 !/mpv
 !/ncmpcpp
@@ -24,13 +25,16 @@
 !/pulse/daemon.conf
 !/quartus/quartus2.ini
 !/shell
+!/swaylock
 !/sxiv
 !/tmux
+!/tofi
 !/transmission-daemon/blocklists
 !/transmission/blocklists
+!/user-dirs.dirs
+!/waybar
 !/wget
 !/x11
 !/xsettingsd
 !/yay
 !/zathura
-!**/.gitignore

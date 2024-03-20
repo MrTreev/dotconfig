@@ -1,0 +1,36 @@
+@import "theme.css";
+
+vivaldi-stable
+* {
+	transition: none;
+	box-shadow: none;
+}
+
+window#waybar {
+	font-family: "Hack Nerd Font Mono", monospace;
+	font-size: 1em;
+	font-weight: 400;
+	color: @text;
+	background: @crust;
+}
+
+.modules-left label {
+	padding: 0 1em;
+}
+
+.modules-center box {
+	border: 2px solid @crust;
+}
+.modules-center label {
+	padding: 0 1em;
+	border: 2px solid @crust;
+}
+
+.modules-right label {
+	padding: 0 1em;
+	border: 2px solid @crust;
+}
+
+widget {
+	background: @base;
+}
