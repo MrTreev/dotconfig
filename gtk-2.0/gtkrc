@@ -2,10 +2,10 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/opatterson/.gtkrc-2.0.mine"
-gtk-theme-name="Catppuccin-Mocha-Standard-Mauve-Dark"
+gtk-theme-name="catppuccin-mocha-lavender-standard+default"
 gtk-icon-theme-name="HighContrast"
-gtk-font-name="Cantarell 11"
-gtk-cursor-theme-name="Catppuccin-Mocha-Mauve-Cursors"
+gtk-font-name="Hack Nerd Font 16"
+gtk-cursor-theme-name="catppuccin-mocha-lavender-cursors"
 gtk-cursor-theme-size=48
 gtk-toolbar-style=GTK_TOOLBAR_ICONS
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
@@ -14,6 +14,6 @@ gtk-menu-images=0
 gtk-enable-event-sounds=1
 gtk-enable-input-feedback-sounds=0
 gtk-xft-antialias=1
-gtk-xft-hinting=0
-gtk-xft-hintstyle="hintnone"
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintslight"
 gtk-xft-rgba="rgb"

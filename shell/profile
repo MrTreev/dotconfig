@@ -8,8 +8,7 @@ export PATH="$PATH:${$(find ~/.local/bin -type d -printf %p:)%%:}"
 export BROWSER='vivaldi-stable'
 export EDITOR='nvim'
 export PAGER='nvim -c "set buftype=nofile | AnsiEsc | set so=999"'
-export MANPAGER='nvim -c "set so=999" +Man!'
-export TERM='alacritty'
+export MANPAGER='less'
 export TERMINAL='alacritty'
 export LAUNCH_DESKTOP_ENV="hyprland"                                            # options: hyprland, dwm
 
@@ -85,7 +84,7 @@ export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter                            
 export JUPYTER_PLATFORM_DIRS="1"                                                # python-jupyter
 
 # Theme
-export GTK_THEME=Adwaita:dark
+export GTK_THEME="Catppiccin-Mocha-Lavender:dark"
 export QT_QPA_PLATFORMTHEME="gtk2"                                              # Have QT use gtk2 theme.
 export QT_STYLE_OVERRIDE="adwaita-dark"                                         # GTK and Qt Theme
 
@@ -190,6 +189,14 @@ tw=🤝:\
 
 # Start graphical server on user's current tty if not already running.
 case ${LAUNCH_DESKTOP_ENV} in
-    dwm) [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC" ;;
-    hyprland) [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Hyprland >/dev/null 2>&1 && exec Hyprland ;;
+    dwm)
+        [ "$(tty)" = "/dev/tty1" ] \
+            && ! pidof -s Xorg >/dev/null 2>&1 \
+            && exec startx "$XINITRC"
+        ;;
+    hyprland)
+        [ "$(tty)" = "/dev/tty1" ] \
+            && ! pidof -s Hyprland >/dev/null 2>&1 \
+            && exec Hyprland
+        ;;
 esac

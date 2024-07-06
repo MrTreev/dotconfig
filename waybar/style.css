@@ -32,5 +32,25 @@ window#waybar {
 }
 
 widget {
-	background: @base;
+	background: @mantle;
+}
+
+#workspaces button {
+    padding: 0 0em;
+    background-color: @mantle;
+    color: @text;
+    margin: 0em;
+}
+
+#workspaces button.active {
+    background-color: @surface0;
+    color: @text;
+}
+
+#workspaces button.urgent {
+    background-color: @red;
+}
+
+#systemd-failed-units.degraded {
+    background-color: @red;
 }

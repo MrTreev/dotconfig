@@ -3,7 +3,7 @@
 "layer": "top",
 "modules-left": ["hyprland/workspaces"],
 "modules-center": ["hyprland/window"],
-"modules-right": ["pulseaudio", "network", "bluetooth", "battery", "clock"],
+"modules-right": ["wireplumber", "network", "bluetooth", "systemd-failed-units", "battery", "clock"],
 
 "bluetooth": {
 	"format-connected": " {device_alias}:{device_battery_percentage}%",
@@ -22,6 +22,12 @@
 	"seperate-outputs": true
 },
 
+"hyprland/workspaces": {
+  "format": "{name}",
+  "on-click": "activate",
+  "sort-by-number": true
+},
+
 "battery": {
     "format": "{capacity}% {icon}",
     "format-icons": ["", "", "", "", ""]
@@ -32,22 +38,20 @@
     "format": "🕛 {:%Y-%m-%d %H:%M:%S}"
 },
 
-"pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-bluetooth": "{icon} {volume}%",
+"wireplumber": {
+    "format": "{volume}%",
     "format-muted": "",
-    "format-icons": {
-        "headphone": "",
-        "hands-free": "",
-        "headset": "",
-        "phone": "",
-        "portable": "",
-        "car": "",
-        "default": ["", ""]
-    },
-    "scroll-step": 1,
-    "on-click": "$TERMINAL -c pulsemixer",
-    "ignored-sinks": ["Easy Effects Sink"]
+    "on-click": "helvum",
+    "max-volume": 150,
+    "scroll-step": 0.2
+},
+
+"systemd-failed-units": {
+	"hide-on-ok": true,
+	"format": "✗ {nr_failed}",
+	"format-ok": "✓",
+	"system": true,
+	"user": true
 }
 
 }
