@@ -2,7 +2,7 @@
 # Any customization should be done in ~/.gtkrc-2.0.mine instead.
 
 include "/home/opatterson/.gtkrc-2.0.mine"
-gtk-theme-name="catppuccin-mocha-lavender-standard+default"
+gtk-theme-name="Arc-Darker"
 gtk-icon-theme-name="HighContrast"
 gtk-font-name="Hack Nerd Font 16"
 gtk-cursor-theme-name="catppuccin-mocha-lavender-cursors"
