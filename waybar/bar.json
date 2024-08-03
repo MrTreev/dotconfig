@@ -3,17 +3,24 @@
 "layer": "top",
 "modules-left": ["hyprland/workspaces"],
 "modules-center": ["hyprland/window"],
-"modules-right": ["wireplumber", "network", "bluetooth", "systemd-failed-units", "battery", "clock"],
+"modules-right": ["wireplumber", "network#wifi", "network#ethernet", "bluetooth", "systemd-failed-units", "battery", "clock"],
 
 "bluetooth": {
 	"format-connected": " {device_alias}:{device_battery_percentage}%",
 	"format": ""
 },
 
-"network": {
+"network#wifi": {
+    "interface": "wlp2s0",
 	"interval": 5,
-	"format": "",
-	"format-wifi": "📶 {essid}:{bandwidthTotalBytes}",
+	"format": "📶 Disconnected",
+	"format-wifi": "📶 {essid}:{bandwidthTotalBytes}"
+},
+
+"network#ethernet": {
+    "interface": "enp16s0",
+	"interval": 5,
+	"format": "🌐 Disconnected",
 	"format-ethernet": "🌐 {bandwidthTotalBytes}"
 },
 
@@ -23,9 +30,9 @@
 },
 
 "hyprland/workspaces": {
-  "format": "{name}",
-  "on-click": "activate",
-  "sort-by-number": true
+    "format": "{name}",
+    "on-click": "activate",
+    "sort-by-number": true
 },
 
 "battery": {
