@@ -7,10 +7,33 @@ export PATH="${$(find ~/.local/bin -type d -printf %p:)%%:}:$PATH"
 # Default programs:
 export BROWSER='vivaldi-stable'
 export EDITOR='nvim'
-export PAGER='nvim -c "set buftype=nofile | AnsiEsc | set so=999"'
-export MANPAGER='less'
 export TERMINAL='alacritty'
-export LAUNCH_DESKTOP_ENV="hyprland"                                            # options: hyprland, dwm
+
+if [ -x "$(command -v hostnamectl)" ]; then
+    # options: hyprland, dwm
+    case "$(hostnamectl hostname)" in
+        z8-workstation) LAUNCH_DESKTOP_ENV="dwm" ;;
+        *) LAUNCH_DESKTOP_ENV="hyprland" ;;
+    esac
+fi
+
+# Use nvimpager if it exists
+if [ -x "$(command -v nvimpager)" ]; then
+    PAGER='nvimpager'
+    MANPAGER='nvimpager'
+    unset MANWIDTH
+elif [ -z "${PAGER}" ]; then
+    PAGER='nvim -c "set buftype=nofile | AnsiEsc | set so=999"'
+    MANPAGER='nvim +Man!'
+    MANWIDTH=999
+else
+    MANPAGER="${PAGER}"
+    unset MANWIDTH
+fi
+
+export PAGER
+export MANWIDTH
+export MANPAGER
 
 # XDG Directories Setup
 export XDG_CACHE_HOME="$HOME/.cache"
