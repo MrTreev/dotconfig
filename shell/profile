@@ -16,6 +16,7 @@ if [ -x "$(command -v hostnamectl)" ]; then
         *) LAUNCH_DESKTOP_ENV="hyprland" ;;
     esac
 fi
+export LAUNCH_DESKTOP_ENV
 
 # Use nvimpager if it exists
 if [ -x "$(command -v nvimpager)" ]; then
