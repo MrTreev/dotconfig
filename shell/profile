@@ -9,15 +9,6 @@ export BROWSER='vivaldi-stable'
 export EDITOR='nvim'
 export TERMINAL='alacritty'
 
-if [ -x "$(command -v hostnamectl)" ]; then
-    # options: hyprland, dwm
-    case "$(hostnamectl hostname)" in
-        z8-workstation) LAUNCH_DESKTOP_ENV="dwm" ;;
-        *) LAUNCH_DESKTOP_ENV="hyprland" ;;
-    esac
-fi
-export LAUNCH_DESKTOP_ENV
-
 # Use nvimpager if it exists
 if [ -x "$(command -v nvimpager)" ]; then
     PAGER='nvimpager'
@@ -211,6 +202,21 @@ tw=🤝:\
 *.zip=📦:\
 "
 
+# Machine-Specific Configs
+if [ -x "$(command -v hostnamectl)" ]; then
+    # options: hyprland, dwm
+	machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname)"
+	if [ -r "${machine_env}" ]; then
+		source "${machine_env}"
+	else
+		echo "Could not find config ${machine_env}"
+		exit 1
+	fi
+else
+	echo "Could not find hostname"
+	exit 1
+fi
+
 # Start graphical server on user's current tty if not already running.
 case ${LAUNCH_DESKTOP_ENV} in
     dwm)
@@ -219,6 +225,14 @@ case ${LAUNCH_DESKTOP_ENV} in
             && exec startx "$XINITRC"
         ;;
     hyprland)
+        export CLUTTER_BACKEND="wayland"
+        export GDK_BACKEND="wayland,x11,*"
+        export QT_QPA_PLATFORM="wayland;xcb"
+        export QT_QPA_PLATFORMTHEME="qt6ct"
+        export SDL_VIDEODRIVER="wayland"
+        export XDG_CURRENT_DESKTOP="Hyprland"
+        export XDG_SESSION_DESKTOP="Hyprland"
+        export XDG_SESSION_TYPE="wayland"
         [ "$(tty)" = "/dev/tty1" ] \
             && ! pidof -s Hyprland >/dev/null 2>&1 \
             && exec Hyprland

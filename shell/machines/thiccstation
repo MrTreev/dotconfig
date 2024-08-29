@@ -1,0 +1,2 @@
+#!/bin/sh
+export LAUNCH_DESKTOP_ENV="dwm"
