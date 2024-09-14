@@ -1,8 +1,9 @@
-#!/bin/zsh
+#!/bin/sh
 # profile file. Runs on login. Environmental variables are set here.
 unsetopt PROMPT_SP
 
-export PATH="${$(find ~/.local/bin -type d -printf %p:)%%:}:$PATH"
+tmp_dirs="$(find ~/.local/bin -type d -printf %p:)"
+export PATH="${tmp_dirs%%:}:$PATH"
 
 # Default programs:
 export BROWSER='vivaldi-stable'
@@ -15,7 +16,8 @@ if [ -x "$(command -v nvimpager)" ]; then
     MANPAGER='nvimpager'
     unset MANWIDTH
 elif [ -z "${PAGER}" ]; then
-    PAGER='nvim -c "set buftype=nofile | AnsiEsc | set so=999"'
+    alias myvimpager='nvim -c "set buftype=nofile | AnsiEsc | set so=999"'
+    PAGER='myvimpager'
     MANPAGER='nvim +Man!'
     MANWIDTH=999
 else
@@ -27,6 +29,7 @@ export PAGER
 export MANWIDTH
 export MANPAGER
 
+tmp_uid="$(id -u)"
 # XDG Directories Setup
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -35,7 +38,7 @@ export XDG_DOCUMENTS_DIR="$HOME/Documents/"
 export XDG_DOWNLOAD_DIR="$HOME/Downloads/"
 export XDG_MUSIC_DIR="$HOME/Audio/Music/"
 export XDG_PICTURES_DIR="$HOME/Pictures/"
-export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+export XDG_RUNTIME_DIR="/run/user/${tmp_uid}"
 export XDG_VIDEOS_DIR="$HOME/Videos/"
 
 # XDG Directories Enforcement
@@ -73,8 +76,8 @@ export OCTAVE_SITE_INITFILE="$XDG_CONFIG_HOME/octave/octaverc"                  
 export PARALLEL_HOME="$XDG_CONFIG_HOME/parallel"                                # parallel
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/password-store"                     # pass/gopass
 export RENPY_PATH_TO_SAVES="${XDG_DATA_HOME}/renpy"                             # renpy games
-export PYTHONPYCACHEPREFIX=$XDG_CACHE_HOME/python                               # python
-export PYTHONUSERBASE=$XDG_DATA_HOME/python                                     # python
+export PYTHONPYCACHEPREFIX="${XDG_CACHE_HOME}/python"                           # python
+export PYTHONUSERBASE="${XDG_DATA_HOME}/python"                                 # python
 export QSYS_ROOTDIR="${XDG_DATA_HOME}/Quartus/quartus/sopc_builder/bin"         # quartus
 export TEXMFCONFIG="${XDG_CONFIG_HOME}/texlive/texmf-config"                    # texmf
 export TEXMFHOME="${XDG_DATA_HOME}/texmf"                                       # texmf
@@ -111,16 +114,25 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"                         
 export LESS=-R                                                                  # Less set redraw
 export LESSHISTFILE="-"                                                         # Less set no history file
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"                   # Less add highlighting
-export LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"                              # Less set blink time
-export LESS_TERMCAP_md="$(printf '%b' '[1;36m')"                              # Less set bold
-export LESS_TERMCAP_me="$(printf '%b' '[0m')"                                 # Less set sgr0 (no bold, blink, or underline)
-export LESS_TERMCAP_se="$(printf '%b' '[0m')"                                 # Less set rmso (stop standout)
-export LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"                          # Less set smso (standout - reverse video)
-export LESS_TERMCAP_ue="$(printf '%b' '[0m')"                                 # Less set stop underline
-export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"                              # Less set start underline
 export MOZ_USE_XINPUT2="1"                                                      # Mozilla smooth scrolling/touchpads.
 export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"                                # Sets sudo password promt program
 export _JAVA_AWT_WM_NONREPARENTING=1                                            # Fix for Java applications in dwm
+
+# Export seperately to make shellcheck happy
+LESS_TERMCAP_mb="$(printf '%b' '[1;31m')"                                     # Less set blink time
+LESS_TERMCAP_md="$(printf '%b' '[1;36m')"                                     # Less set bold
+LESS_TERMCAP_me="$(printf '%b' '[0m')"                                        # Less set sgr0 (no bold, blink, or underline)
+LESS_TERMCAP_se="$(printf '%b' '[0m')"                                        # Less set rmso (stop standout)
+LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')"                                 # Less set smso (standout - reverse video)
+LESS_TERMCAP_ue="$(printf '%b' '[0m')"                                        # Less set stop underline
+LESS_TERMCAP_us="$(printf '%b' '[1;32m')"                                     # Less set start underline
+export LESS_TERMCAP_mb
+export LESS_TERMCAP_md
+export LESS_TERMCAP_me
+export LESS_TERMCAP_se
+export LESS_TERMCAP_so
+export LESS_TERMCAP_ue
+export LESS_TERMCAP_us
 
 # This is the list for lf icons:
 export LF_ICONS="\
@@ -205,9 +217,10 @@ tw=🤝:\
 # Machine-Specific Configs
 if [ -x "$(command -v hostnamectl)" ]; then
     # options: hyprland, dwm
-	machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname)"
+	machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname | tr '[:upper:]' '[:lower:]')"
 	if [ -r "${machine_env}" ]; then
-		source "${machine_env}"
+        # shellcheck disable=SC1090
+		. "${machine_env}"
 	else
 		echo "Could not find config ${machine_env}"
 		exit 1

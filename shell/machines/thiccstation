@@ -1,2 +1,4 @@
 #!/bin/sh
-export LAUNCH_DESKTOP_ENV="dwm"
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export XCURSOR_SIZE=48
+export LAUNCH_DESKTOP_ENV="hyprland"
