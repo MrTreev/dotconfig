@@ -6,8 +6,9 @@
 !/cppman
 !/discord/settings.json
 !/editorconfig
-!/fsh
 !/flameshot
+!/foot
+!/fsh
 !/gh
 !/git
 !/glow
@@ -21,6 +22,7 @@
 !/ncmpcpp
 !/neomutt
 !/newsboat
+!/nsxiv
 !/nvim
 !/nvimpager
 !/nwg-look
@@ -29,7 +31,6 @@
 !/shell
 !/swaylock
 !/sxiv
-!/nsxiv
 !/tmux
 !/tofi
 !/transmission-daemon/blocklists

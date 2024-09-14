@@ -8,7 +8,7 @@ export PATH="${tmp_dirs%%:}:$PATH"
 # Default programs:
 export BROWSER='vivaldi-stable'
 export EDITOR='nvim'
-export TERMINAL='alacritty'
+export TERMINAL='foot'
 
 # Use nvimpager if it exists
 if [ -x "$(command -v nvimpager)" ]; then
