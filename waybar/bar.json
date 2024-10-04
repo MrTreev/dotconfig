@@ -11,14 +11,14 @@
 },
 
 "network#wifi": {
-    "interface": "wlp2s0",
+    "interface": "wlan0",
 	"interval": 5,
 	"format": "📶 Disconnected",
 	"format-wifi": "📶 {essid}:{bandwidthTotalBytes}"
 },
 
 "network#ethernet": {
-    "interface": "enp16s0",
+    "interface": "eth0",
 	"interval": 5,
 	"format": "🌐 Disconnected",
 	"format-ethernet": "🌐 {bandwidthTotalBytes}"
