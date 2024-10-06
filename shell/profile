@@ -31,15 +31,17 @@ export MANPAGER
 
 tmp_uid="$(id -u)"
 # XDG Directories Setup
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_DOCUMENTS_DIR="$HOME/Documents/"
-export XDG_DOWNLOAD_DIR="$HOME/Downloads/"
-export XDG_MUSIC_DIR="$HOME/Audio/Music/"
-export XDG_PICTURES_DIR="$HOME/Pictures/"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_DOCUMENTS_DIR="${HOME}/Documents/"
+export XDG_DOWNLOAD_DIR="${HOME}/Downloads/"
+export XDG_MUSIC_DIR="${HOME}/Audio/Music/"
+export XDG_PICTURES_DIR="${HOME}/Pictures/"
 export XDG_RUNTIME_DIR="/run/user/${tmp_uid}"
-export XDG_VIDEOS_DIR="$HOME/Videos/"
+export XDG_VIDEOS_DIR="${HOME}/Videos/"
+export XDG_DESKTOP_DIR="${XDG_DATA_HOME}/desktop"
+unset tmp_uid
 
 # XDG Directories Enforcement
 # Cache:    "${XDG_CACHE_HOME}
@@ -115,7 +117,7 @@ export LESS=-R                                                                  
 export LESSHISTFILE="-"                                                         # Less set no history file
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"                   # Less add highlighting
 export MOZ_USE_XINPUT2="1"                                                      # Mozilla smooth scrolling/touchpads.
-export SUDO_ASKPASS="$HOME/.local/bin/dmenupass"                                # Sets sudo password promt program
+export SUDO_ASKPASS="${HOME}/.local/bin/dmenupass"                                # Sets sudo password promt program
 export _JAVA_AWT_WM_NONREPARENTING=1                                            # Fix for Java applications in dwm
 
 # Export seperately to make shellcheck happy
