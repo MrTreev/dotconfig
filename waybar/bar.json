@@ -11,17 +11,19 @@
 },
 
 "network#wifi": {
-    "interface": "wlan0",
+    "interface": "wl*",
 	"interval": 5,
-	"format": "📶 Disconnected",
-	"format-wifi": "📶 {essid}:{bandwidthTotalBytes}"
+    "format-icons": ["📶"],
+	"format": "{icon} Disconnected",
+	"format-wifi": "{icon} {essid}:{bandwidthTotalBytes}"
 },
 
 "network#ethernet": {
-    "interface": "eth0",
+    "interface": "e*",
 	"interval": 5,
-	"format": "🌐 Disconnected",
-	"format-ethernet": "🌐 {bandwidthTotalBytes}"
+    "format-icons": ["🌐"],
+	"format": "{icon} Disconnected",
+	"format-ethernet": "{icon} {bandwidthTotalBytes}"
 },
 
 "hyprland/window": {
