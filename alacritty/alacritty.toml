@@ -1,3 +1,4 @@
+[general]
 live_config_reload = true
 import = [
 	"~/.config/alacritty/theme.toml",
@@ -35,4 +36,3 @@ bindings = [
 	{ key="K", mods = "Alt",       action = "ScrollLineUp" },
 	{ key="J", mods = "Alt",       action = "ScrollLineDown" },
 ]
-
