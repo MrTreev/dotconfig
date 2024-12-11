@@ -2,6 +2,13 @@
 # profile file. Runs on login.
 unsetopt PROMPT_SP
 
+set -o allexport
+for tmpfile in ~/.config/environment.d/*.conf; do
+    # shellcheck disable=SC1090
+    . "${tmpfile}"
+done
+set +o allexport
+
 tmp_dirs="$(find ~/.local/bin -type d -printf %p:)"
 PATH="${tmp_dirs%%:}:${PATH}"
 unset tmp_dirs
