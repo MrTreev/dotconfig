@@ -3,3 +3,6 @@
 	url = https://github.com/MrTreev/nvim-config.git
 	branch = master
 
+[submodule "lldb/lldbinit"]
+	path = lldb/lldbinit
+	url = https://github.com/gdbinit/lldbinit.git

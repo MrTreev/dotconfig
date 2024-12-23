@@ -4,11 +4,13 @@
 !/alsa
 !/calcurse
 !/cppman
+!/cppman.cfg
 !/discord/settings.json
 !/editorconfig
 !/flameshot
 !/foot
 !/fsh
+!/gdb
 !/gh
 !/git
 !/glow
@@ -16,6 +18,7 @@
 !/hypr
 !/hypr
 !/lf
+!/lldb
 !/mimeapps.list
 !/mpd
 !/mpv
@@ -28,7 +31,9 @@
 !/nwg-look
 !/pulse/daemon.conf
 !/quartus/quartus2.ini
+!/s-tui
 !/shell
+!/subversion
 !/swaylock
 !/sxiv
 !/tmux
@@ -43,5 +48,6 @@
 !/xsettingsd
 !/yay
 !/zathura
+!/zsh/.zprofile
 !/zsh/.zshrc
 !/environment.d

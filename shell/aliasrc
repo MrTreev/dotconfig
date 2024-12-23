@@ -51,6 +51,7 @@ alias \
     alias svn='svn --config-dir "$XDG_CONFIG_HOME"/subversion' \
 	nvidia-settings='nvidia-settings --config="${XDG_CONFIG_HOME:-$HOME/.config}"/nvidia/nvidia-settings-rc' \
     wget='wget --hsts-file="$XDG_CACHE_HOME/wget-hsts"' \
+    lldb='lldb --source-before-file "${XDG_CONFIG_HOME}/lldb/initfile"' \
 
 
 # Use for statusbar
