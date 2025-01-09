@@ -10,7 +10,7 @@ done
 set +o allexport
 
 tmp_dirs="$(find ~/.local/bin -type d -printf %p:)"
-PATH="${tmp_dirs%%:}:${PATH}"
+PATH="${tmp_dirs%%:}:${HOME}/.local/share/clang/bin:${PATH}"
 unset tmp_dirs
 export PATH
 
@@ -48,7 +48,7 @@ export LESS_TERMCAP_us
 # Machine-Specific Configs
 if [ -x "$(command -v hostnamectl)" ]; then
     # options: hyprland, dwm
-	machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname | tr '[:upper:]' '[:lower:]')"
+	machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname)"
 	if [ -r "${machine_env}" ]; then
         # shellcheck disable=SC1090
 		. "${machine_env}"

@@ -47,7 +47,7 @@ function zle-keymap-select () {
 zle -N zle-keymap-select
 zle-line-init() {
     # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-    zle -K viins 
+    zle -K viins
     echo -ne "\e[5 q"
 }
 zle -N zle-line-init
@@ -58,6 +58,9 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
+
+# Load direnv hook
+eval "$(direnv hook zsh)"
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
