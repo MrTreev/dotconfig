@@ -15,8 +15,12 @@ SAVEHIST=10000000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 # load aliases
-SHELLPROFILE="${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile"
+SHELLPROFILE="${XDG_CONFIG_HOME:-${HOME}/.config}/shell/profile"
+SHELLSHORTCUTS="${XDG_CONFIG_HOME:-${HOME}/.config}/shell/shortcutrc"
+SHELLALIASES="${XDG_CONFIG_HOME:-${HOME}/.config}/shell/aliasrc"
 [ -f "${SHELLPROFILE}" ] && source "${SHELLPROFILE}"
+[ -f "${SHELLSHORTCUTS}" ] && source "${SHELLSHORTCUTS}"
+[ -f "${SHELLALIASES}" ] && source "${SHELLALIASES}"
 
 # Tab Completion
 autoload -U compinit
@@ -60,7 +64,9 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
 # Load direnv hook
-eval "$(direnv hook zsh)"
+if which direnv>/dev/null; then
+	eval "$(direnv hook zsh)"
+fi
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null

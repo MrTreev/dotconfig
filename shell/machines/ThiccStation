@@ -1,5 +1,8 @@
 #!/bin/sh
-export QT_AUTO_SCREEN_SCALE_FACTOR=1
-export XCURSOR_SIZE=48
-export LAUNCH_DESKTOP_ENV="hyprland"
-export WLR_DRM_DEVICES="/dev/dri/card1"
+# shellcheck disable=SC2034
+LAUNCH_DESKTOP_ENV="hyprland"
+
+QT_AUTO_SCREEN_SCALE_FACTOR=1
+XCURSOR_SIZE=48
+
+WLR_DRM_DEVICES="/dev/dri/card1"
