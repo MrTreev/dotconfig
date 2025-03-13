@@ -2,53 +2,51 @@
 # profile file. Runs on login.
 
 profile_read_env(){
-        set -o allexport;
-        # shellcheck disable=SC1090
-        . "${1}";
-        set +o allexport;
+	set -o allexport;
+	# shellcheck disable=SC1090
+	. "${1}";
+	set +o allexport;
 }
 
 profile_export_less(){
-    # Export seperately to make shellcheck happy
-    LESS_TERMCAP_mb="$(printf '%b' '[1;31m')";         # Less set blink time
-    LESS_TERMCAP_md="$(printf '%b' '[1;36m')";         # Less set bold
-    LESS_TERMCAP_me="$(printf '%b' '[0m')";            # Less set sgr0 (no bold, blink, or underline)
-    LESS_TERMCAP_se="$(printf '%b' '[0m')";            # Less set rmso (stop standout)
-    LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')";     # Less set smso (standout - reverse video)
-    LESS_TERMCAP_ue="$(printf '%b' '[0m')";            # Less set stop underline
-    LESS_TERMCAP_us="$(printf '%b' '[1;32m')";         # Less set start underline
-    export LESS_TERMCAP_mb;
-    export LESS_TERMCAP_md;
-    export LESS_TERMCAP_me;
-    export LESS_TERMCAP_se;
-    export LESS_TERMCAP_so;
-    export LESS_TERMCAP_ue;
-    export LESS_TERMCAP_us;
+	# Export seperately to make shellcheck happy
+	LESS_TERMCAP_mb="$(printf '%b' '[1;31m')";		# Less set blink time
+	LESS_TERMCAP_md="$(printf '%b' '[1;36m')";		# Less set bold
+	LESS_TERMCAP_me="$(printf '%b' '[0m')";			# Less set sgr0 (no bold, blink, or underline)
+	LESS_TERMCAP_se="$(printf '%b' '[0m')";			# Less set rmso (stop standout)
+	LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')";	# Less set smso (standout - reverse video)
+	LESS_TERMCAP_ue="$(printf '%b' '[0m')";			# Less set stop underline
+	LESS_TERMCAP_us="$(printf '%b' '[1;32m')";		# Less set start underline
+	export LESS_TERMCAP_mb;
+	export LESS_TERMCAP_md;
+	export LESS_TERMCAP_me;
+	export LESS_TERMCAP_se;
+	export LESS_TERMCAP_so;
+	export LESS_TERMCAP_ue;
+	export LESS_TERMCAP_us;
 }
 
 profile_export_env(){
-    for tmpfile in ~/.config/environment.d/*.conf; do
-        profile_read_env "${tmpfile}"
-    done;
-    unset tmpfile;
+	for tmpfile in "${HOME}/.config/environment.d/"*.conf; do
+		profile_read_env "${tmpfile}"
+	done;
+	unset tmpfile;
 }
 
 contains() {
-    if [ "${1#*"$2"}" != "$1" ]; then
-        return 0;
-    else
-        return 1;
-    fi;
+	if [ "${1#*"$2"}" != "$1" ]; then
+		return 0;
+	else
+		return 1;
+	fi;
 }
 
 makepath(){
 	args="$*";
 	tmppath=""
-	for item in $(echo "${PATH}:${args}" | tr ':' '\n' | sort -u); do
+	for item in $(echo "${PATH}:${args}" | tr ':' '\n' | awk '!a[$0]++'); do
 		if [ -d "$item" ]; then
-    		if [ "${tmppath#*"${item}"}" = "${tmppath}" ]; then
-				tmppath="${item}${tmppath:+:}${tmppath}";
-			fi
+			tmppath="${item}${tmppath:+:}${tmppath}";
 		fi;
 	done
 	echo "$tmppath";
@@ -56,78 +54,82 @@ makepath(){
 }
 
 profile_export_path(){
-	PATH="$(makepath "$(find ~/.local/bin -type d -printf %p:)" "${HOME}/.local/share/clang/bin")"
-    export PATH;
+	PATH="$(
+		makepath \
+			"$(find "${HOME}/.local/bin" -type d -printf %p:)" \
+			"${HOME}/.local/share/clang/bin"
+	)"
+	export PATH;
 }
 
 profile_export_pager(){
-    if [ -x "$(command -v nvimpager)" ]; then
-        export PAGER='nvimpager';
-        export MANPAGER='nvimpager';
-        unset MANWIDTH;
-    elif [ -z "${PAGER}" ]; then
-        alias myvimpager='nvim -c "set buftype=nofile | AnsiEsc | set so=999"';
-        export PAGER='myvimpager';
-        export MANPAGER='nvim +Man!';
-        export MANWIDTH=999;
-    else
-        export MANPAGER="${PAGER}";
-        unset MANWIDTH;
-    fi;
+	if [ -x "$(command -v nvimpager)" ]; then
+		export PAGER='nvimpager';
+		export MANPAGER='nvimpager';
+		unset MANWIDTH;
+	elif [ -z "${PAGER}" ]; then
+		alias myvimpager='nvim -c "set buftype=nofile | AnsiEsc | set so=999"';
+		export PAGER='myvimpager';
+		export MANPAGER='nvim +Man!';
+		export MANWIDTH=999;
+	else
+		export MANPAGER="${PAGER}";
+		unset MANWIDTH;
+	fi;
 }
 
 profile_export_machine_config(){
-    if [ -x "$(command -v hostnamectl)" ]; then
+	if [ -x "$(command -v hostnamectl)" ]; then
 		machine_env="${XDG_CONFIG_HOME}/shell/machines/$(hostnamectl hostname)"
-        if [ -r "${machine_env}" ]; then
-            profile_read_env "${machine_env}";
-        else
-            echo "Could not find config ${machine_env}";
-            return;
-        fi;
-        unset lower_host;
-        unset machine_env;
-    else
-        echo "Could not find hostname";
-        return;
-    fi;
+		if [ -r "${machine_env}" ]; then
+			profile_read_env "${machine_env}";
+		else
+			echo "Could not find config ${machine_env}";
+			return;
+		fi;
+		unset lower_host;
+		unset machine_env;
+	else
+		echo "Could not find hostname";
+		return;
+	fi;
 }
 
 profile_start_gui(){
-    # Start graphical server on user's current tty if not already running.
-    # options: hyprland, dwm
-    case ${LAUNCH_DESKTOP_ENV} in
-        dwm)
-            pidof -s Xorg >/dev/null 2>&1 \
-                || exec startx "$XINITRC" ;;
-        hyprland)
+	# Start graphical server on user's current tty if not already running.
+	# options: hyprland, dwm
+	case ${LAUNCH_DESKTOP_ENV} in
+		dwm)
+			pidof -s Xorg >/dev/null 2>&1 \
+				|| exec startx "$XINITRC" ;;
+		hyprland)
 			# profile_read_env "${XDG_CONFIG_HOME}/uwsm/env-hyprland"
-            # if uwsm may-start && uwsm select; then
-            #      exec systemd-cat -t uwsm_start uwsm start default
-            # fi
-            export CLUTTER_BACKEND="wayland";
-            export GDK_BACKEND="wayland,x11,*";
-            export QT_QPA_PLATFORM="wayland;xcb";
-            export QT_QPA_PLATFORMTHEME="qt6ct";
-            export SDL_VIDEODRIVER="wayland";
-            export XDG_CURRENT_DESKTOP="Hyprland";
-            export XDG_SESSION_DESKTOP="Hyprland";
-            export XDG_SESSION_TYPE="wayland";
-            pidof -s Hyprland >/dev/null 2>&1 \
-                || exec Hyprland ;;
-    esac
+			# if uwsm may-start && uwsm select; then
+			#	  exec systemd-cat -t uwsm_start uwsm start default
+			# fi
+			export CLUTTER_BACKEND="wayland";
+			export GDK_BACKEND="wayland,x11,*";
+			export QT_QPA_PLATFORM="wayland;xcb";
+			export QT_QPA_PLATFORMTHEME="qt6ct";
+			export SDL_VIDEODRIVER="wayland";
+			export XDG_CURRENT_DESKTOP="Hyprland";
+			export XDG_SESSION_DESKTOP="Hyprland";
+			export XDG_SESSION_TYPE="wayland";
+			pidof -s Hyprland >/dev/null 2>&1 \
+				|| exec Hyprland ;;
+	esac
 }
 
 profile_main(){
-    unsetopt PROMPT_SP;
-    profile_export_env;
-    profile_export_path;
-    profile_export_pager;
-    profile_export_less;
-    profile_export_machine_config;
-    if [ "$(tty)" = "/dev/tty1" ]; then
-        profile_start_gui;
-    fi
+	unsetopt PROMPT_SP;
+	profile_export_env;
+	profile_export_path;
+	profile_export_pager;
+	profile_export_less;
+	profile_export_machine_config;
+	if [ "$(tty)" = "/dev/tty1" ]; then
+		profile_start_gui;
+	fi
 }
 
 profile_main
