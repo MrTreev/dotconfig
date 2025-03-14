@@ -120,6 +120,12 @@ profile_start_gui(){
 	esac
 }
 
+profile_enable_direnv(){
+    if [ -x "$(command -v direnv)" ]; then
+        eval "$(direnv hook zsh)"
+    fi
+}
+
 profile_main(){
 	unsetopt PROMPT_SP;
 	profile_export_env;
@@ -127,6 +133,7 @@ profile_main(){
 	profile_export_pager;
 	profile_export_less;
 	profile_export_machine_config;
+    profile_enable_direnv;
 	if [ "$(tty)" = "/dev/tty1" ]; then
 		profile_start_gui;
 	fi
