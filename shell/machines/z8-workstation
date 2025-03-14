@@ -4,3 +4,6 @@ LAUNCH_DESKTOP_ENV="dwm"
 
 QT_AUTO_SCREEN_SCALE_FACTOR=1
 XCURSOR_SIZE=24
+
+PIP_INDEX_URL="https://download.pytorch.org/whl/nightly/cu126"
+PIP_EXTRA_INDEX_URL="https://pypi.org/simple"

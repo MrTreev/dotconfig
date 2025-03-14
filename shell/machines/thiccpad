@@ -12,3 +12,6 @@ LIBVA_DRIVER_NAME="nvidia"
 GBM_BACKEND="nvidia-drm"
 __GLX_VENDOR_LIBRARY_NAME="nvidia"
 NVD_BACKEND="direct"
+
+PIP_INDEX_URL="https://download.pytorch.org/whl/nightly/cu126"
+PIP_EXTRA_INDEX_URL="https://pypi.org/simple"
