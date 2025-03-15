@@ -13,7 +13,7 @@
 "network#wifi": {
     "interface": "wl*",
 	"interval": 5,
-    "format-icons": ["📶"],
+    "format-icons": [""],
 	"format": "{icon} Disconnected",
 	"format-wifi": "{icon} {essid}:{bandwidthTotalBytes}"
 },

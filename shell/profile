@@ -127,6 +127,7 @@ profile_enable_direnv(){
 }
 
 profile_main(){
+    export ZDOTDIR=${HOME}/.config/zsh
 	unsetopt PROMPT_SP;
 	profile_export_env;
 	profile_export_path;
