@@ -23,6 +23,7 @@ alias \
 	rm='rm -vI' \
 	yt='youtube-dl --add-metadata -i' \
 	yta='yt -x -f bestaudio/best' \
+	R='R --no-save' \
 
 # Colorize commands when possible.
 alias \
