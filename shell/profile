@@ -103,38 +103,39 @@ profile_start_gui(){
 			pidof -s Xorg >/dev/null 2>&1 \
 				|| exec startx "$XINITRC" ;;
 		hyprland)
-			# profile_read_env "${XDG_CONFIG_HOME}/uwsm/env-hyprland"
-			# if uwsm may-start && uwsm select; then
-			#	  exec systemd-cat -t uwsm_start uwsm start default
-			# fi
-			export CLUTTER_BACKEND="wayland";
-			export GDK_BACKEND="wayland,x11,*";
-			export QT_QPA_PLATFORM="wayland;xcb";
-			export QT_QPA_PLATFORMTHEME="qt6ct";
-			export SDL_VIDEODRIVER="wayland";
-			export XDG_CURRENT_DESKTOP="Hyprland";
-			export XDG_SESSION_DESKTOP="Hyprland";
-			export XDG_SESSION_TYPE="wayland";
-			pidof -s Hyprland >/dev/null 2>&1 \
-				|| exec Hyprland ;;
+			profile_read_env "${XDG_CONFIG_HOME}/uwsm/env-hyprland"
+			if command -v uwsm >/dev/null 2>&1 && uwsm may-start && uwsm select; then
+				exec uwsm start default;
+			else
+				export CLUTTER_BACKEND="wayland";
+				export GDK_BACKEND="wayland,x11,*";
+				export QT_QPA_PLATFORM="wayland;xcb";
+				export QT_QPA_PLATFORMTHEME="qt6ct";
+				export SDL_VIDEODRIVER="wayland";
+				export XDG_CURRENT_DESKTOP="Hyprland";
+				export XDG_SESSION_DESKTOP="Hyprland";
+				export XDG_SESSION_TYPE="wayland";
+				pidof -s Hyprland >/dev/null 2>&1 \
+					|| exec Hyprland;
+			fi
 	esac
 }
 
 profile_enable_direnv(){
-    if [ -x "$(command -v direnv)" ]; then
-        eval "$(direnv hook zsh)"
-    fi
+	if [ -x "$(command -v direnv)" ]; then
+		eval "$(direnv hook zsh)"
+	fi
 }
 
 profile_main(){
-    export ZDOTDIR=${HOME}/.config/zsh
+	export ZDOTDIR="${HOME}/.config/zsh"
 	unsetopt PROMPT_SP;
 	profile_export_env;
 	profile_export_path;
 	profile_export_pager;
 	profile_export_less;
 	profile_export_machine_config;
-    profile_enable_direnv;
+	profile_enable_direnv;
 	if [ "$(tty)" = "/dev/tty1" ]; then
 		profile_start_gui;
 	fi
