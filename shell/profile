@@ -10,20 +10,20 @@ profile_read_env(){
 
 profile_export_less(){
 	# Export seperately to make shellcheck happy
-	LESS_TERMCAP_mb="$(printf '%b' '[1;31m')";		# Less set blink time
-	LESS_TERMCAP_md="$(printf '%b' '[1;36m')";		# Less set bold
-	LESS_TERMCAP_me="$(printf '%b' '[0m')";			# Less set sgr0 (no bold, blink, or underline)
-	LESS_TERMCAP_se="$(printf '%b' '[0m')";			# Less set rmso (stop standout)
-	LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')";	# Less set smso (standout - reverse video)
-	LESS_TERMCAP_ue="$(printf '%b' '[0m')";			# Less set stop underline
-	LESS_TERMCAP_us="$(printf '%b' '[1;32m')";		# Less set start underline
-	export LESS_TERMCAP_mb;
-	export LESS_TERMCAP_md;
-	export LESS_TERMCAP_me;
-	export LESS_TERMCAP_se;
-	export LESS_TERMCAP_so;
-	export LESS_TERMCAP_ue;
-	export LESS_TERMCAP_us;
+	# Less set blink time
+	LESS_TERMCAP_mb="$(printf '%b' '[1;31m')" && export LESS_TERMCAP_mb;
+	# Less set bold
+	LESS_TERMCAP_md="$(printf '%b' '[1;36m')" && export LESS_TERMCAP_md;
+	# Less set sgr0 (no bold, blink, or underline)
+	LESS_TERMCAP_me="$(printf '%b' '[0m')" && export LESS_TERMCAP_me;
+	# Less set rmso (stop standout)
+	LESS_TERMCAP_se="$(printf '%b' '[0m')" && export LESS_TERMCAP_se;
+	# Less set smso (standout - reverse video)
+	LESS_TERMCAP_so="$(printf '%b' '[01;44;33m')" && export LESS_TERMCAP_so;
+	# Less set stop underline
+	LESS_TERMCAP_ue="$(printf '%b' '[0m')" && export LESS_TERMCAP_ue;
+	# Less set start underline
+	LESS_TERMCAP_us="$(printf '%b' '[1;32m')" && export LESS_TERMCAP_us;
 }
 
 profile_export_env(){
@@ -33,15 +33,7 @@ profile_export_env(){
 	unset tmpfile;
 }
 
-contains() {
-	if [ "${1#*"$2"}" != "$1" ]; then
-		return 0;
-	else
-		return 1;
-	fi;
-}
-
-makepath(){
+profile_makepath(){
 	args="$*";
 	tmppath=""
 	for item in $(echo "${PATH}:${args}" | tr ':' '\n' | awk '!a[$0]++'); do
@@ -55,11 +47,12 @@ makepath(){
 
 profile_export_path(){
 	PATH="$(
-		makepath \
+		profile_makepath \
 			"$(find "${HOME}/.local/bin" -type d -printf %p:)" \
 			"${HOME}/.local/share/clang/bin"
 	)"
 	export PATH;
+	unset -f profile_makepath;
 }
 
 profile_export_pager(){
@@ -85,59 +78,52 @@ profile_export_machine_config(){
 			profile_read_env "${machine_env}";
 		else
 			echo "Could not find config ${machine_env}";
-			return;
+			return 1;
 		fi;
-		unset lower_host;
-		unset machine_env;
+		unset lower_host machine_env;
 	else
 		echo "Could not find hostname";
-		return;
+		return 1;
 	fi;
 }
 
-profile_start_gui(){
-	# Start graphical server on user's current tty if not already running.
-	# options: hyprland, dwm
-	case ${LAUNCH_DESKTOP_ENV} in
-		dwm)
-			pidof -s Xorg >/dev/null 2>&1 \
-				|| exec startx "$XINITRC" ;;
-		hyprland)
-			profile_read_env "${XDG_CONFIG_HOME}/uwsm/env-hyprland"
-			if command -v uwsm >/dev/null 2>&1 && uwsm may-start && uwsm select; then
-				exec uwsm start default;
-			else
-				export CLUTTER_BACKEND="wayland";
-				export GDK_BACKEND="wayland,x11,*";
-				export QT_QPA_PLATFORM="wayland;xcb";
-				export QT_QPA_PLATFORMTHEME="qt6ct";
-				export SDL_VIDEODRIVER="wayland";
-				export XDG_CURRENT_DESKTOP="Hyprland";
-				export XDG_SESSION_DESKTOP="Hyprland";
-				export XDG_SESSION_TYPE="wayland";
-				pidof -s Hyprland >/dev/null 2>&1 \
-					|| exec Hyprland;
-			fi
-	esac
-}
-
-profile_enable_direnv(){
-	if [ -x "$(command -v direnv)" ]; then
-		eval "$(direnv hook zsh)"
-	fi
-}
-
 profile_main(){
-	export ZDOTDIR="${HOME}/.config/zsh"
+	export ZDOTDIR="${HOME}/.config/zsh";
 	unsetopt PROMPT_SP;
-	profile_export_env;
-	profile_export_path;
-	profile_export_pager;
-	profile_export_less;
-	profile_export_machine_config;
-	profile_enable_direnv;
+	profile_export_env && unset -f profile_export_env;
+	profile_export_path && unset -f profile_export_path;
+	profile_export_pager && unset -f profile_export_pager;
+	profile_export_less && unset -f profile_export_less;
+	profile_export_machine_config && unset -f profile_export_machine_config;
+	unset -f profile_read_env;
+	[ -x "$(command -v direnv)" ] && eval "$(direnv hook zsh)"; # Start direnv
 	if [ "$(tty)" = "/dev/tty1" ]; then
-		profile_start_gui;
+		(
+			# Start graphical server on user's current tty if not already running.
+			# options: hyprland, dwm
+			case ${LAUNCH_DESKTOP_ENV} in
+				dwm) pidof -s Xorg >/dev/null 2>&1 || exec startx "$XINITRC";;
+				hyprland)
+					set -o allexport;
+					# shellcheck disable=SC1091
+					. "${XDG_CONFIG_HOME}/uwsm/env-hyprland";
+					set +o allexport;
+					if command -v uwsm >/dev/null 2>&1 && uwsm check may-start; then
+						exec uwsm start -- hyprland.desktop;
+					else
+						export CLUTTER_BACKEND="wayland";
+						export GDK_BACKEND="wayland,x11,*";
+						export QT_QPA_PLATFORM="wayland;xcb";
+						export QT_QPA_PLATFORMTHEME="qt6ct";
+						export SDL_VIDEODRIVER="wayland";
+						export XDG_CURRENT_DESKTOP="Hyprland";
+						export XDG_SESSION_DESKTOP="Hyprland";
+						export XDG_SESSION_TYPE="wayland";
+						pidof -s Hyprland >/dev/null 2>&1 \
+							|| exec Hyprland;
+					fi
+			esac
+		) 2>&1 | tee "${XDG_DATA_HOME}/gui.log";
 	fi
 }
 
