@@ -7,6 +7,7 @@
 !/cppman.cfg
 !/discord/settings.json
 !/editorconfig
+!/environment.d
 !/flameshot
 !/foot
 !/fsh
@@ -41,6 +42,7 @@
 !/transmission-daemon/blocklists
 !/transmission/blocklists
 !/user-dirs.dirs
+!/uwsm
 !/waybar
 !/wget
 !/wofi
@@ -50,4 +52,3 @@
 !/zathura
 !/zsh/.zprofile
 !/zsh/.zshrc
-!/environment.d
