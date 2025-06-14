@@ -4,11 +4,12 @@
 !/alsa/
 !/calcurse/
 !/cheat/
-!/cppman.cfg
 !/cppman/
+!/direnv/
 !/discord/settings.json
 !/editorconfig/
 !/environment.d/
+!/flameshot/
 !/foot/
 !/fsh/
 !/gdb/
@@ -37,6 +38,7 @@
 !/subversion/
 !/swaylock/
 !/sxiv/
+!/systemd/services/
 !/tmux/
 !/tofi/
 !/transmission-daemon/blocklists

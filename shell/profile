@@ -87,6 +87,50 @@ profile_export_machine_config(){
 	fi;
 }
 
+profile_start_gui(){
+	# Start graphical server on user's current tty if not already running.
+	# options: hyprland, dwm
+	case ${LAUNCH_DESKTOP_ENV} in
+		dwm)
+			pidof -s Xorg >/dev/null 2>&1 \
+				|| exec startx "$XINITRC" ;;
+		hyprland)
+			# profile_read_env "${XDG_CONFIG_HOME}/uwsm/env-hyprland"
+			# if uwsm may-start && uwsm select; then
+			#	  exec systemd-cat -t uwsm_start uwsm start default
+			# fi
+			export CLUTTER_BACKEND="wayland";
+			export GDK_BACKEND="wayland,x11,*";
+			export QT_QPA_PLATFORM="wayland;xcb";
+			export QT_QPA_PLATFORMTHEME="qt6ct";
+			export SDL_VIDEODRIVER="wayland";
+			export XDG_CURRENT_DESKTOP="Hyprland";
+			export XDG_SESSION_DESKTOP="Hyprland";
+			export XDG_SESSION_TYPE="wayland";
+			pidof -s Hyprland >/dev/null 2>&1 \
+				|| exec Hyprland ;;
+	esac
+}
+
+profile_enable_direnv_testalias(){
+    grep -v 'direnv' >/dev/null 2>&1 \
+        | grep 'alias' >/dev/null 2>&1;
+}
+
+profile_enable_direnv(){
+    if [ -x "$(command -v direnv)" ]; then
+        eval "$(direnv hook zsh)"
+        if type tmux | profile_enable_direnv_testalias; then
+            mytmux="$(type tmux | sed 's/tmux is an alias for //')";
+        else
+            mytmux='tmux';
+        fi;
+	    # shellcheck disable=SC2139 # This needs to expand now
+        alias tmux="direnv exec / ${mytmux}"
+    fi
+    unset mytmux
+}
+
 profile_main(){
 	export ZDOTDIR="${HOME}/.config/zsh";
 	unsetopt PROMPT_SP;
